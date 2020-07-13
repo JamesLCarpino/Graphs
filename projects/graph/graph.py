@@ -95,14 +95,14 @@ class Graph:
         # set the stack up so that those being evaluated have a place to live
         # ppulate the stack with the starting vertex
         # stack.push(starting_vertex)
+        print(starting_vertex)
         if visited is None:
             visited = set()
         visited.add(starting_vertex)
-        print(starting_vertex)
-        for neighbor in self.get_neighbors(starting_vertex):
-            self.dft_recursive(neighbor, visited)
-        return visited
 
+        for neighbor in self.get_neighbors(starting_vertex):
+            if neighbor not in visited:
+                self.dft_recursive(neighbor, visited)
         # mark s as visited
         # for all neighbours w of s in Graph G:
         #     if w is not visited:
@@ -115,7 +115,7 @@ class Graph:
         breath-first order.
         """
         # Create an empty queue and enqueue A PATH TO the starting vertex ID
-        # queue = Queue()
+
         # queue.enqueue(starting_vertex, destination_vertex)
         # # Create a Set to store visited vertices
         # visisted = set()
