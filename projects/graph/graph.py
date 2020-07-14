@@ -90,11 +90,7 @@ class Graph:
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        # # hold the value of what has been visisted in a set
 
-        # set the stack up so that those being evaluated have a place to live
-        # ppulate the stack with the starting vertex
-        # stack.push(starting_vertex)
         print(starting_vertex)
         if visited is None:
             visited = set()
@@ -114,24 +110,20 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        # Create an empty queue and enqueue A PATH TO the starting vertex ID
-
-        # queue.enqueue(starting_vertex, destination_vertex)
-        # # Create a Set to store visited vertices
-        # visisted = set()
-        # # While the queue is not empty...
-        # while queue.size() > 0:
-        #     path = queue.dequeue()
-        # Dequeue the first PATH
-        # Grab the last vertex from the PATH
-
-        # If that vertex has not been visited...
-        # CHECK IF IT'S THE TARGET
-        # IF SO, RETURN PATH
-        # Mark it as visited...
-        # Then add A PATH TO its neighbors to the back of the queue
-        # COPY THE PATH
-        # APPEND THE NEIGHOR TO THE BACK
+        queue = Queue()
+        visited = []
+        path = queue.enqueue([starting_vertex])
+        while queue.size() > 0:
+            first_path = queue.dequeue()
+            last_vertex = first_path[-1]
+            if last_vertex not in visited:
+                for neighbor in self.get_neighbors(last_vertex):
+                    new_path = list(first_path)
+                    new_path.append(neighbor)
+                    queue.enqueue(new_path)
+                    if neighbor == destination_vertex:
+                        return new_path
+                visited.append(path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
