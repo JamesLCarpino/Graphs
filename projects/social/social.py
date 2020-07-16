@@ -9,6 +9,9 @@ class User:
 
 class SocialGraph:
     def __init__(self):
+        self.reset()
+
+    def reset(self):
         self.last_id = 0
         self.users = {}
         self.friendships = {}
@@ -19,14 +22,17 @@ class SocialGraph:
         """
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
+            return False
         elif (
             friend_id in self.friendships[user_id]
             or user_id in self.friendships[friend_id]
         ):
             print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
+        return True
 
     def add_user(self, name):
         """
@@ -47,9 +53,10 @@ class SocialGraph:
         The number of users must be greater than the average number of friendships.
         """
         # Reset graph
-        self.last_id = 0
-        self.users = {}
-        self.friendships = {}
+        self.reset()
+        # self.last_id = 0
+        # self.users = {}
+        # self.friendships = {}
         # !!!! IMPLEMENT ME
 
         # Add users
@@ -72,6 +79,28 @@ class SocialGraph:
 
         # number of users must be greater than the average number of friendships
 
+    def populate_graph_2(self, num_users, av_friendships):
+        # reset the graph
+        self.reset()
+
+        # add users
+        for i in range(num_users):
+            self.add_user(f"User {i+1}")
+
+        # create the friendships
+        target_friendships = num_users * av_friendships
+        total_friendships = 0
+        collisions = 0
+
+        while total_friendships < target_friendships:
+            user_id = random.randint(1, self.last_id)
+            friend_id = random.randint(1, self.last_id)
+            if self.add_friendship(user_id, friend_id):
+                total_friendships += 2
+            else:
+                collisions += 1
+        print(f"Collisions: {collisions}")
+
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
@@ -93,13 +122,17 @@ class SocialGraph:
 
         while q.size() > 0:
             path = q.dequeue()
+            # print("PATH Queue:", path)
             last_user = path[-1]
             if last_user not in visited:
                 visited[last_user] = path
+
                 for neighbor in self.friendships[last_user]:
+                    # print("Neighbor:", neighbor)
                     path_copy = list(path)
                     path_copy.append(neighbor)
                     q.enqueue(path_copy)
+                    # print("PATHS", path_copy)
 
         return visited
 
@@ -141,7 +174,7 @@ class SocialGraph:
 
 if __name__ == "__main__":
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph_2(10, 2)
     print(f"List of Friendships{sg.friendships}")
-    connections = sg.get_all_social_paths(1)
-    print(f"Connector paths: {connections}")
+    # connections = sg.get_all_social_paths(1)
+    # print(f"Connector paths: {connections}")
