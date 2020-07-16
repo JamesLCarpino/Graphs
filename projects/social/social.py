@@ -84,26 +84,22 @@ class SocialGraph:
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
         # create that empty queue you hear so much about
-        def friendly_paths(path, friends):
-            q = Queue()
+
+        q = Queue()
+        if len(self.friendships[user_id]) <= 0:
+            pass
+        else:
             q.enqueue([user_id])
-            friends = []
+
             while q.size() > 0:
                 path = q.dequeue()
-                last_vertex = path[-1]
-                if last_vertex not in visited:
-                    for neighbor in self.friendships[user_id]:
+                last_user = path[-1]
+                if last_user not in visited:
+                    visited[last_user] = path
+                    for neighbor in self.friendships[last_user]:
                         path_copy = list(path)
                         path_copy.append(neighbor)
-                        if neighbor == last_vertex:
-                            return path_copy
-
-                    visited[user_id] = path
-
-        for friends in self.users:
-            results = friendly_paths(user_id, [friends])
-            if results != None:
-                visited[friends] = results
+                        q.enqueue(path_copy)
 
         return visited
 
