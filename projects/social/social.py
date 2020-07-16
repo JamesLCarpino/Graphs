@@ -86,20 +86,20 @@ class SocialGraph:
         # create that empty queue you hear so much about
 
         q = Queue()
-        if len(self.friendships[user_id]) <= 0:
-            pass
-        else:
-            q.enqueue([user_id])
+        # if len(self.friendships[user_id]) <= 0:
+        #     pass
+        # else:
+        q.enqueue([user_id])
 
-            while q.size() > 0:
-                path = q.dequeue()
-                last_user = path[-1]
-                if last_user not in visited:
-                    visited[last_user] = path
-                    for neighbor in self.friendships[last_user]:
-                        path_copy = list(path)
-                        path_copy.append(neighbor)
-                        q.enqueue(path_copy)
+        while q.size() > 0:
+            path = q.dequeue()
+            last_user = path[-1]
+            if last_user not in visited:
+                visited[last_user] = path
+                for neighbor in self.friendships[last_user]:
+                    path_copy = list(path)
+                    path_copy.append(neighbor)
+                    q.enqueue(path_copy)
 
         return visited
 
