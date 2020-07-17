@@ -26,8 +26,7 @@ world.print_rooms()
 player = Player(world.starting_room)
 
 
-# need a dictionary for the maze/graph
-visi = dict()  # holds the {n:?, s:?...}
+# holds the {n:?, s:?...}
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
@@ -66,6 +65,7 @@ def find_the_way(visited_rooms=None):
             # record the direction to the direction store
             direction_store.append(ways_out)
             # recurse through using the same rules since its now in the visited room
+            # do not try to set a new variable and loop through causes a wild and crazy infinite loop. yeesh.
             direction_store += find_the_way(visited_rooms)
             print(direction_store)
 
@@ -92,6 +92,7 @@ def find_the_way(visited_rooms=None):
     # requires reversing directions
 
 
+# set the path to the function to walk the path of resistance, and knowledge
 traversal_path = find_the_way()
 # TRAVERSAL TEST
 visited_rooms = set()
